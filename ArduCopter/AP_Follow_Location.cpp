@@ -26,7 +26,7 @@ bool AP_Follow_Location::get_location(){
             switch (num)
          {
          case 0:
-            mavBuffLat[i] = mavBuffer[i];
+            mavBuffLat[i] = mavBuffer[i+1];
             break;
          case 1:
             mavBuffLng[i] = mavBuffer[i];
