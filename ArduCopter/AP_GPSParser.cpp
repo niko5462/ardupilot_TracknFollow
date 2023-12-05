@@ -1,86 +1,80 @@
+/******************
+Class responsible for establishing connection to any unused serial port and read incoming data from it. Its saves the incoming to a one Byte buffer. 
+
+TO use this class, you need to include the following in your code:
+
 #include "AP_GPSParser.h"
+get_isReady() returns true if the buffer is ready to be parsed
+get_buffer() returns the buffer
 
+process() processes the incoming data and saves it to the buffer
+setup() sets up the serial port
 
+You can then use the buffer in your code to parse the data
+*******************/
 
-AP_GPSParser::AP_GPSParser() {
+#include "AP_GPSParser.h"
+#include <AP_HAL/AP_HAL.h>
+#include <AP_SerialManager/AP_SerialManager.h>
 
-}
+AP_SerialManager serial_manager;
 
-void AP_GPSParser::setup(){
-    // hal.scheduler->delay(1000); //Ensure that the uartA can be initialized
-    // setup_uart(hal.serial(3), "SERIAL3");  // 1st GPS
+AP_GPSParser::AP_GPSParser() :  uart(nullptr), mavlink_buffer_index(0){
+} 
+
+void AP_GPSParser::setup() {
+    // Initialize serial ports using AP_SerialManager
+    serial_manager.init();  
+    setup_uart(hal.serial(1), "SERIAL1");  // TELEM 1
 }
 
 void AP_GPSParser::setup_uart(AP_HAL::UARTDriver *uart_param, const char *name){
-// this->uart = uart_param;
-   //  if (uart == nullptr) {
-        // that UART doesn't exist on this platform
-   //     return;
-   //     hal.console->println("åh nej ikke godt");
-   // }
-   // uart->begin(57600);
-   // hal.console->println("den virker");
-   // uart->lock_port(17, 16); //Write key, Read key
+this->uart = uart_param;
+    if (uart == nullptr) {
+        hal.console->println("Failed to find serial");
+        return;
+    }  
+    uart->begin(57600);
 }
 
-void AP_GPSParser::process() {
-
-   // test_uart(hal.serial(3), "SERIAL3");
-
-   // if (uart->available_locked(16) > 0) {
-   //     uint8_t received_byte;
-   //     ssize_t bytesRead = uart->read_locked(&received_byte, 1, 16);
-
-   //     if (bytesRead > 0) {
-   //         if (parseMavlinkByte(received_byte)) {
-   //             if (processMavlinkMessage(mavlink_buffer, mavlink_buffer_index)) {
-   //             }
-   //             mavlink_buffer_index = 0;
-   //         }
-   //     }
-   // }
+void AP_GPSParser::process() {  
+    read_from_serial(serial_manager.get_serial_by_id(1), "SERIAL1");
+    if (get_isReady()) {
+        get_buffer();
+        mavlink_buffer[0] = '\0';
+        mavlink_buffer_index = 0;
+    }   
 }
 
-void AP_GPSParser::test_uart(AP_HAL::UARTDriver *uart_param, const char *name)
-{
-    // Check if the UART port is available
-    // if (uart == nullptr) {
-    //    hal.console->println("UART port not available.");
-    //    return;
-    //}
-
-    // uart_param->write_locked(mavlink_buffer,"teesting \n");
-    
-    // Read data from the UART
-    // size_t bytesRead = uart->read(mavlink_buffer, sizeof(mavlink_buffer));
-
-    //if (bytesRead > 0) {
-        // Print the received data to the console
-    //    for (size_t i = 0; i < bytesRead; i++) {
-          // hal.console->printf("%c \n", mavlink_buffer[i]);
-    //    }
-    //}
-}
-
-bool AP_GPSParser::parseMavlinkByte(uint8_t byte) {
-    /*
-    if (mavlink_buffer_index < sizeof(mavlink_buffer)) {
-        mavlink_buffer[mavlink_buffer_index] = byte;
-        mavlink_buffer_index++;
-        if (mavlink_buffer_index >= 6 + mavlink_buffer[1]) {
-            return true;
+void AP_GPSParser::read_from_serial(AP_HAL::UARTDriver *uart_param, const char *name) {
+    if (uart_param == nullptr) {
+        hal.console->println("Failed to find serial");
+        return;
+    } else{
+   while (uart_param->available()) {
+            uint8_t inc_data = uart_param->read();
+            save_to_buffer(inc_data);
         }
     }
-    */
-    return false;
-    
 }
 
-bool AP_GPSParser::processMavlinkMessage(const uint8_t* buffer, uint16_t length) {
-    // Implement your logic to parse the MAVLink message and update gps_data
-    // Return true if GPS data is successfully extracted, otherwise false
-     return false; // Replace with your parsing logic
-  
+void AP_GPSParser::save_to_buffer(uint8_t data){
+    if (mavlink_buffer_index < sizeof(mavlink_buffer) - 1) {
+        mavlink_buffer[mavlink_buffer_index] = data;
+        mavlink_buffer_index++;
+        mavlink_buffer[mavlink_buffer_index] = '\0'; // Null-terminate the buffer
+    }
+ }
+
+bool AP_GPSParser::get_isReady(){
+    if (mavlink_buffer_index > 50) {
+        return true;
+    } else{
+        return false;
+    }
 }
 
-
+uint8_t* AP_GPSParser::get_buffer(){
+    hal.console->printf("Buffer: %s\n", mavlink_buffer);
+    return mavlink_buffer;
+}

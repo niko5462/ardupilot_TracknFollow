@@ -1,16 +1,14 @@
 #include "Copter.h"
 
-void Copter::gpsparser_init(){
-static bool setupDone = false;
-if (!setupDone)
-{
-    gpsParser.setup();  
-    setupDone = true;    
-    hal.console->println("Setup completed");
-}
+void Copter::gps_parser_task() {
+    
+    // Perform the setup only once
+    gpsParser.setup();
+
+    // Process the GPS parser in each iteration
     gpsParser.process();
-    //hal.console->println("process kører");
 }
 
 
-  
+
+

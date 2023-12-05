@@ -961,7 +961,7 @@ private:
     // terrain.cpp
     void terrain_update();
     void terrain_logging();
-    void gpsparser_init();
+    void gps_parser_task();
 
     // Follow_Location.cpp
     void follow_location();
