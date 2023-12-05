@@ -64,7 +64,7 @@ void AP_GPSParser::save_to_buffer(uint8_t data){
         mavlink_buffer_index++;
         mavlink_buffer[mavlink_buffer_index] = '\0'; // Null-terminate the buffer
     }
-    }
+ }
 
 bool AP_GPSParser::get_isReady(){
     if (mavlink_buffer_index > 50) {
