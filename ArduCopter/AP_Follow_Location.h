@@ -23,7 +23,6 @@ private:
     Location StartLoc;
     Location receivedLoc;
     Vector3f vel;
-    uint8_t mavBuffer[255];
     uint8_t mavBuffLat[64];
     uint8_t mavBuffLng[64];
     uint8_t mavBuffAlt[64];

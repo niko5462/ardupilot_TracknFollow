@@ -17,7 +17,7 @@ void AP_Follow_Location::_init(){
 bool AP_Follow_Location::get_location(){
    if (gpsParser.get_isReady()) { 
    // This function checks if the location has been received from the Link module
-   mavBuffer[] = gpsParser.get_buffer(); //Function from AP_GPSParser.cpp
+   uint8_t* mavBuffer = gpsParser.get_buffer();
    num = 0;
 
    //create a for loop that takes every char up to a comma and puts it into receivedLoc.lat, receivedLoc.lng, and receivedLoc.alt
@@ -42,6 +42,7 @@ bool AP_Follow_Location::get_location(){
          num += 1;
       }
    }
+
    receivedLoc.lat = int32_t(mavBuffLat);
    receivedLoc.lng = int32_t(mavBuffLng);
    receivedLoc.alt = int32_t(mavBuffAlt);
