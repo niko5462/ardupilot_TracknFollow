@@ -76,6 +76,7 @@
 
 #include "Copter.h"
 
+
 #define FORCE_VERSION_H_INCLUDE
 #include "version.h"
 #undef FORCE_VERSION_H_INCLUDE
@@ -84,6 +85,7 @@ const AP_HAL::HAL& hal = AP_HAL::get_HAL();
 
 #define SCHED_TASK(func, _interval_ticks, _max_time_micros, _prio) SCHED_TASK_CLASS(Copter, &copter, func, _interval_ticks, _max_time_micros, _prio)
 #define FAST_TASK(func) FAST_TASK_CLASS(Copter, &copter, func)
+
 
 /*
   scheduler table - all tasks should be listed here.
@@ -258,6 +260,11 @@ const AP_Scheduler::Task Copter::scheduler_tasks[] = {
 #if STATS_ENABLED == ENABLED
     SCHED_TASK_CLASS(AP_Stats,             &copter.g2.stats,            update,           1, 100, 171),
 #endif
+
+SCHED_TASK(gpsparser_init,              5, 2500, 175),
+
+SCHED_TASK(follow_location,              5, 2500, 179),
+
 };
 
 void Copter::get_scheduler_tasks(const AP_Scheduler::Task *&tasks,
@@ -268,6 +275,8 @@ void Copter::get_scheduler_tasks(const AP_Scheduler::Task *&tasks,
     task_count = ARRAY_SIZE(scheduler_tasks);
     log_bit = MASK_LOG_PM;
 }
+
+
 
 constexpr int8_t Copter::_failsafe_priorities[7];
 
@@ -290,7 +299,7 @@ bool Copter::start_takeoff(float alt)
 
 // set target location (for use by scripting)
 bool Copter::set_target_location(const Location& target_loc)
-{
+{   
     // exit if vehicle is not in Guided mode or Auto-Guided mode
     if (!flightmode->in_guided_mode()) {
         return false;
@@ -664,6 +673,9 @@ void Copter::one_hz_loop()
 
     // log terrain data
     terrain_logging();
+
+    // run gpsparser
+    gpsparser_init();
 
 #if HAL_ADSB_ENABLED
     adsb.set_is_flying(!ap.land_complete);
