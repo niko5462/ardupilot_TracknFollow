@@ -2,7 +2,7 @@
 #include "Copter.h"
 #include <AP_Common/Location.h>
 
-
+AP_GPSParser gpsParser;
 AP_Follow_Location::AP_Follow_Location(){
 
 }
@@ -15,8 +15,9 @@ void AP_Follow_Location::_init(){
 }
 
 bool AP_Follow_Location::get_location(){
+   if (gpsParser.get_isReady()) { 
    // This function checks if the location has been received from the Link module
-   mavBuffer[] = get_buffer(); //Function from AP_GPSParser.cpp
+   mavBuffer[] = gpsParser.get_buffer(); //Function from AP_GPSParser.cpp
    num = 0;
 
    //create a for loop that takes every char up to a comma and puts it into receivedLoc.lat, receivedLoc.lng, and receivedLoc.alt
@@ -45,6 +46,7 @@ bool AP_Follow_Location::get_location(){
    receivedLoc.lng = int32_t(mavBuffLng);
    receivedLoc.alt = int32_t(mavBuffAlt);
    return true;
+   }
 }
 
 bool AP_Follow_Location::change_location(){
