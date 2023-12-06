@@ -14,8 +14,58 @@ void AP_Follow_Location::_init(){
    StartLoc.alt = 13;
 }
 
-bool AP_Follow_Location::get_location(){
-   if (gpsParser.get_isReady()) { 
+#include <iostream>
+#include <cstring>
+
+void splitString(const char* buffer, char* lngBuffer, char* latBuffer, char* altBuffer) {
+    // Assuming the input string has the format "longitude latitude altitude"
+    
+    // Find the first space (longitude and latitude separator)
+    const char* lonEnd = strchr(buffer, ',');
+    
+    if (lonEnd != nullptr) {
+        // Calculate the length of the longitude string
+        size_t lonLength = lonEnd - buffer;
+        
+        // Copy the longitude string to the lonBuffer
+        strncpy(lngBuffer, buffer, lonLength);
+        lngBuffer[lonLength] = '\0'; // Null-terminate the string
+        
+        // Move to the next character after the space
+        buffer = lonEnd + 1;
+        
+        // Find the second space (latitude and altitude separator)
+        const char* latEnd = strchr(buffer, ',');
+        
+        if (latEnd != nullptr) {
+            // Calculate the length of the latitude string
+            size_t latLength = latEnd - buffer;
+            
+            // Copy the latitude string to the latBuffer
+            strncpy(latBuffer, buffer, latLength);
+            latBuffer[latLength] = '\0'; // Null-terminate the string
+            
+            // Move to the next character after the space
+            buffer = latEnd + 1;
+            
+            // Copy the remaining string to the altBuffer
+            strcpy(altBuffer, buffer);
+        } else {
+            // If the second space is not found, set latBuffer and altBuffer to empty strings
+            latBuffer[0] = '\0';
+            altBuffer[0] = '\0';
+        }
+    } else {
+        // If the first space is not found, set lonBuffer, latBuffer, and altBuffer to empty strings
+        lngBuffer[0] = '\0';
+        latBuffer[0] = '\0';
+        altBuffer[0] = '\0';
+    }
+}
+
+
+/*bool AP_Follow_Location::get_location(){
+   if (gpsParser.has_recieved_message()) { 
    // This function checks if the location has been received from the Link module
    uint8_t* mavBuffer = gpsParser.get_buffer();
    num = 0;
@@ -43,12 +93,12 @@ bool AP_Follow_Location::get_location(){
       }
    }
 
-   receivedLoc.lat = int32_t(mavBuffLat);
-   receivedLoc.lng = int32_t(mavBuffLng);
-   receivedLoc.alt = int32_t(mavBuffAlt);
+   receivedLoc.lat = strtol(mavBuffLat, NULL, 10);
+   receivedLoc.lng = strtol(mavBuffLng, NULL, 10);
+   receivedLoc.alt = strtol(mavBuffAlt, NULL, 10);
    return true;
    }
-}
+}*/
 
 bool AP_Follow_Location::change_location(){
    // This function gets the location from the Link module
@@ -90,19 +140,19 @@ bool AP_Follow_Location::check_location(){
    }
 }
 
-bool AP_Follow_Location::get_distance(){
+double AP_Follow_Location::get_distance(){
    x1 = copter.current_loc.get_distance_NE(NewLoc).x;
    y1 = copter.current_loc.get_distance_NE(NewLoc).y;
    z1 = copter.current_loc.get_alt_cm(NewLoc.get_alt_frame(),NewLoc.alt);
-   wp_len = sqrt(x1*x1 + y1*y1);
+   return sqrt(x1*x1 + y1*y1);
 }
 
 void AP_Follow_Location::update_velocity(){
    range = 100; //The range of the allowed follow mode
    kp = 1; //The proportional gain for the velocity controller
 
- 
    // if the drone is out of range, it should land
+   wp_len = get_distance();
    if (wp_len > range){
       copter.set_mode(Mode::Number::LAND, ModeReason::GCS_COMMAND);
    } else if (wp_len > 7.5){
@@ -118,5 +168,6 @@ void AP_Follow_Location::update_velocity(){
    }
    copter.mode_guided.set_velocity(vel);
 }
+
 
 

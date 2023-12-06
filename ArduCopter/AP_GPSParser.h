@@ -17,7 +17,7 @@ public:
     void process();
     void read_from_serial(AP_HAL::UARTDriver *uart, const char *name);
     void save_to_buffer(uint8_t data);
-    bool get_isReady();
+    bool has_recieved_message();
     uint8_t* get_buffer();
 private:
     //extern AP_SerialManager serial_manager;

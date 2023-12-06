@@ -39,7 +39,7 @@ this->uart = uart_param;
 
 void AP_GPSParser::process() {  
     read_from_serial(serial_manager.get_serial_by_id(1), "SERIAL1");
-    if (get_isReady()) {
+    if (has_recieved_message()) {
         get_buffer();
         mavlink_buffer[0] = '\0';
         mavlink_buffer_index = 0;
@@ -66,7 +66,7 @@ void AP_GPSParser::save_to_buffer(uint8_t data){
     }
  }
 
-bool AP_GPSParser::get_isReady(){
+bool AP_GPSParser::has_recieved_message(){
     if (mavlink_buffer_index > 50) {
         return true;
     } else{
