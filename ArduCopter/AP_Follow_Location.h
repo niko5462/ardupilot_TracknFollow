@@ -18,7 +18,7 @@ public:
     bool check_location();
 private:
     bool get_location();
-    bool get_distance();
+    double get_distance();
     Location NewLoc;
     Location StartLoc;
     Location receivedLoc;

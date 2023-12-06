@@ -43,11 +43,12 @@ bool AP_Follow_Location::get_location(){
       }
    }
 
-   receivedLoc.lat = int32_t(mavBuffLat);
-   receivedLoc.lng = int32_t(mavBuffLng);
-   receivedLoc.alt = int32_t(mavBuffAlt);
-   return true;
+   //convert the char arrays to floats
+   receivedLoc.lat = atof((const char*)mavBuffLat);
+   receivedLoc.lng = atof((const char*)mavBuffLng);
+   receivedLoc.alt = atof((const char*)mavBuffAlt);
    }
+   return true;
 }
 
 bool AP_Follow_Location::change_location(){
@@ -90,18 +91,18 @@ bool AP_Follow_Location::check_location(){
    }
 }
 
-bool AP_Follow_Location::get_distance(){
+double AP_Follow_Location::get_distance(){
    x1 = copter.current_loc.get_distance_NE(NewLoc).x;
    y1 = copter.current_loc.get_distance_NE(NewLoc).y;
    z1 = copter.current_loc.get_alt_cm(NewLoc.get_alt_frame(),NewLoc.alt);
-   wp_len = sqrt(x1*x1 + y1*y1);
+   return sqrt(x1*x1 + y1*y1);
 }
 
 void AP_Follow_Location::update_velocity(){
    range = 100; //The range of the allowed follow mode
    kp = 1; //The proportional gain for the velocity controller
 
- 
+   wp_len = get_distance(); // get the distance between the current location and the new location
    // if the drone is out of range, it should land
    if (wp_len > range){
       copter.set_mode(Mode::Number::LAND, ModeReason::GCS_COMMAND);
