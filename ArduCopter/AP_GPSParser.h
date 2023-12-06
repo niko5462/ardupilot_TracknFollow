@@ -25,7 +25,7 @@ private:
     const AP_HAL::HAL& hal = AP_HAL::get_HAL();
     AP_HAL::UARTDriver* uart;
     uint8_t mavlink_buffer[255];
-    ssize_t mavlink_buffer_index;
+    unsigned long mavlink_buffer_index;
 };
 
 #endif // AP_GPSParser_H
