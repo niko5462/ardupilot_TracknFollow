@@ -16,7 +16,7 @@ void AP_Follow_Location::_init(){
 bool AP_Follow_Location::getSimLoc() {
    Copter::simVar;
    if (simVar== 0) {
-         newLoc = Coordinate1;
+         newLoc = coordinate1;
       } else if (simVar== 1) {
          newLoc = Coordinate2;
       } else if (simVar== 2) {
@@ -118,6 +118,7 @@ bool AP_Follow_Location::getSimLoc() {
       } else if (simVar== 50) {
          newLoc = Coordinate51;
       }
+      simVar++;
 }
 
 bool AP_Follow_Location::get_location(AP_GPSParser _gpsParser){
