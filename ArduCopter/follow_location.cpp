@@ -12,7 +12,7 @@ void Copter::follow_location(){
     }
 
     if (setupDone){
-        if ((!flightmode->is_taking_off()) && followLocation.change_location(gpsParser)){
+        if ((!flightmode->is_taking_off()) && followLocation.getSimLoc()){
             if (followLocation.check_location()){
                 followLocation.update_velocity(); 
                 return;
