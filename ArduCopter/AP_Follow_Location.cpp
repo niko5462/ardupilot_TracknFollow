@@ -2,7 +2,6 @@
 #include "Copter.h"
 #include <AP_Common/Location.h>
 
-AP_GPSParser gpsParser;
 AP_Follow_Location::AP_Follow_Location(){
 
 }
@@ -14,95 +13,18 @@ void AP_Follow_Location::_init(){
    StartLoc.alt = 13;
 }
 
-#include <iostream>
-#include <cstring>
-
-void splitString(const char* buffer, char* lngBuffer, char* latBuffer, char* altBuffer) {
-    // Assuming the input string has the format "longitude latitude altitude"
-    
-    // Find the first space (longitude and latitude separator)
-    const char* lonEnd = strchr(buffer, ',');
-    
-    if (lonEnd != nullptr) {
-        // Calculate the length of the longitude string
-        size_t lonLength = lonEnd - buffer;
-        
-        // Copy the longitude string to the lonBuffer
-        strncpy(lngBuffer, buffer, lonLength);
-        lngBuffer[lonLength] = '\0'; // Null-terminate the string
-        
-        // Move to the next character after the space
-        buffer = lonEnd + 1;
-        
-        // Find the second space (latitude and altitude separator)
-        const char* latEnd = strchr(buffer, ',');
-        
-        if (latEnd != nullptr) {
-            // Calculate the length of the latitude string
-            size_t latLength = latEnd - buffer;
-            
-            // Copy the latitude string to the latBuffer
-            strncpy(latBuffer, buffer, latLength);
-            latBuffer[latLength] = '\0'; // Null-terminate the string
-            
-            // Move to the next character after the space
-            buffer = latEnd + 1;
-            
-            // Copy the remaining string to the altBuffer
-            strcpy(altBuffer, buffer);
-        } else {
-            // If the second space is not found, set latBuffer and altBuffer to empty strings
-            latBuffer[0] = '\0';
-            altBuffer[0] = '\0';
-        }
-    } else {
-        // If the first space is not found, set lonBuffer, latBuffer, and altBuffer to empty strings
-        lngBuffer[0] = '\0';
-        latBuffer[0] = '\0';
-        altBuffer[0] = '\0';
-    }
+bool AP_Follow_Location::get_location(AP_GPSParser _gpsParser){
+   // This function gets the location from the Link module
+   receivedLoc.lat = _gpsParser.get_latitude();
+   receivedLoc.lng = _gpsParser.get_longitude();
+   hal.console->printf("Latitude %li \n",receivedLoc.lat);
+   hal.console->printf("Longitude %li \n",receivedLoc.lng);
+   return true;
 }
 
-
-/*bool AP_Follow_Location::get_location(){
-   if (gpsParser.has_recieved_message()) { 
-   // This function checks if the location has been received from the Link module
-   uint8_t* mavBuffer = gpsParser.get_buffer();
-   num = 0;
-
-   //create a for loop that takes every char up to a comma and puts it into receivedLoc.lat, receivedLoc.lng, and receivedLoc.alt
-   for (size_t i = 0; i < sizeof(mavBuffer); i++){
-      if (mavBuffer[i] != ','){
-            switch (num)
-         {
-         case 0:
-            mavBuffLat[i] = mavBuffer[i+1];
-            break;
-         case 1:
-            mavBuffLng[i] = mavBuffer[i];
-            break;
-         case 2:
-            mavBuffAlt[i] = mavBuffer[i];
-            break;
-         default:
-            return false;
-            break;
-         }
-      } else {
-         num += 1;
-      }
-   }
-
-   receivedLoc.lat = strtol(mavBuffLat, NULL, 10);
-   receivedLoc.lng = strtol(mavBuffLng, NULL, 10);
-   receivedLoc.alt = strtol(mavBuffAlt, NULL, 10);
-   return true;
-   }
-}*/
-
-bool AP_Follow_Location::change_location(){
+bool AP_Follow_Location::change_location(AP_GPSParser _gpsParser){
    // This function gets the location from the Link module
-   if (get_location()){                   // TODO: add that it only goes into this if statement if the location has changed as well
+   if (get_location(_gpsParser)){                   // TODO: add that it only goes into this if statement if the location has changed as well
       NewLoc.alt = receivedLoc.alt; 
       NewLoc.lat = receivedLoc.lat;
       NewLoc.lng = receivedLoc.lng;

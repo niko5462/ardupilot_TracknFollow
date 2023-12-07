@@ -1,5 +1,5 @@
 /******************
-Class responsible for establishing connection to any unused serial port and read incoming data from it. Its saves the incoming to a one Byte buffer. 
+Class responsible for establishing connection to any unused serial port and read incoming data from it. Its saves the incoming to a one Byte buffer.
 
 TO use this class, you need to include the following in your code:
 
@@ -19,62 +19,86 @@ You can then use the buffer in your code to parse the data
 
 AP_SerialManager serial_manager;
 
-AP_GPSParser::AP_GPSParser() :  uart(nullptr), mavlink_buffer_index(0){
-} 
+AP_GPSParser::AP_GPSParser() : uart(nullptr), mavlink_buffer_index(0){
+    // constructor
+}
 
-void AP_GPSParser::setup() {
-    // Initialize serial ports using AP_SerialManager
-    serial_manager.init();  
-    setup_uart(hal.serial(1), "SERIAL1");  // TELEM 1
+void AP_GPSParser::setup(){
+    serial_manager.init();
+    setup_uart(hal.serial(1), "SERIAL1"); // TELEM 1
 }
 
 void AP_GPSParser::setup_uart(AP_HAL::UARTDriver *uart_param, const char *name){
-this->uart = uart_param;
-    if (uart == nullptr) {
+    this->uart = uart_param;
+    if (uart == nullptr)
+    {
         hal.console->println("Failed to find serial");
         return;
-    }  
+    }
     uart->begin(57600);
 }
 
-void AP_GPSParser::process() {  
+void AP_GPSParser::process(){
     read_from_serial(serial_manager.get_serial_by_id(1), "SERIAL1");
-    if (has_recieved_message()) {
-        get_buffer();
-        mavlink_buffer[0] = '\0';
-        mavlink_buffer_index = 0;
-    }   
 }
 
-void AP_GPSParser::read_from_serial(AP_HAL::UARTDriver *uart_param, const char *name) {
-    if (uart_param == nullptr) {
+void AP_GPSParser::read_from_serial(AP_HAL::UARTDriver *uart_param, const char *name){
+    if (uart_param == nullptr){
         hal.console->println("Failed to find serial");
         return;
-    } else{
-   while (uart_param->available()) {
+    }else{
+        while (uart_param->available()){
             uint8_t inc_data = uart_param->read();
-            save_to_buffer(inc_data);
+            if (inc_data == '$'){
+                readData = true;
+            }else if (readData){
+                save_to_buffer(inc_data);
+                if (inc_data == '\n'){
+                    split_coordinates();
+                    readData = false;
+                }
+            }
         }
     }
 }
 
 void AP_GPSParser::save_to_buffer(uint8_t data){
-    if (mavlink_buffer_index < sizeof(mavlink_buffer) - 1) {
+    if (mavlink_buffer_index < sizeof(mavlink_buffer) - 1){
         mavlink_buffer[mavlink_buffer_index] = data;
         mavlink_buffer_index++;
         mavlink_buffer[mavlink_buffer_index] = '\0'; // Null-terminate the buffer
     }
- }
+}
 
 bool AP_GPSParser::has_recieved_message(){
-    if (mavlink_buffer_index > 50) {
+    if (mavlink_buffer_index > 0){
         return true;
-    } else{
+    }else{
         return false;
     }
 }
 
-uint8_t* AP_GPSParser::get_buffer(){
-    hal.console->printf("Buffer: %s\n", mavlink_buffer);
-    return mavlink_buffer;
+// make a function that returns the latitude and longitude
+void AP_GPSParser::split_coordinates(){
+    latitude = strtok((char *)mavlink_buffer, ",");
+    longitude = strtok(NULL, ",");
+    altitude = strtok(NULL, ",");
+    resetBuffer();
+}
+
+void AP_GPSParser::resetBuffer(){
+    mavlink_buffer[0] = '\0';
+    mavlink_buffer_index = 0;
+}
+
+uint32_t AP_GPSParser::get_latitude(){
+    latf = atof(latitude) * 10000000.0;
+    lat = static_cast<uint32_t>(latf);
+    return lat;
+}
+
+uint32_t AP_GPSParser::get_longitude(){
+    lngf = atof(longitude) * 10000000.0;
+    lng = static_cast<uint32_t>(lngf);
+    return lng;
 }

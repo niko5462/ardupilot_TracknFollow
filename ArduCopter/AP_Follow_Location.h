@@ -14,10 +14,10 @@ public:
     AP_Follow_Location();
     void _init();
     void update_velocity();
-    bool change_location();
+    bool change_location(AP_GPSParser gpsParser);
     bool check_location();
 private:
-    bool get_location();
+    bool get_location(AP_GPSParser gpsParser);
     double get_distance();
     Location NewLoc;
     Location StartLoc;

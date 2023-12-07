@@ -12,20 +12,31 @@
 class AP_GPSParser {
 public:
     AP_GPSParser();
-    void setup_uart(AP_HAL::UARTDriver *uart, const char *name);
     void setup();
     void process();
-    void read_from_serial(AP_HAL::UARTDriver *uart, const char *name);
-    void save_to_buffer(uint8_t data);
     bool has_recieved_message();
-    uint8_t* get_buffer();
+    uint32_t get_latitude();
+    uint32_t get_longitude();
 private:
-    //extern AP_SerialManager serial_manager;
-    bool is_ready;
-    const AP_HAL::HAL& hal = AP_HAL::get_HAL();
-    AP_HAL::UARTDriver* uart;
-    uint8_t mavlink_buffer[255];
-    unsigned long mavlink_buffer_index;
+void resetBuffer();
+void save_to_buffer(uint8_t data);
+void read_from_serial(AP_HAL::UARTDriver *uart, const char *name);
+void setup_uart(AP_HAL::UARTDriver *uart, const char *name);
+const AP_HAL::HAL &hal = AP_HAL::get_HAL();    
+void split_coordinates();
+
+AP_HAL::UARTDriver *uart;
+uint8_t mavlink_buffer[64];
+char *latitude;
+char *longitude;
+char *altitude;
+uint32_t lat;
+uint32_t lng;
+double latf;
+double lngf;
+unsigned long mavlink_buffer_index;
+bool readData;
+
 };
 
 #endif // AP_GPSParser_H

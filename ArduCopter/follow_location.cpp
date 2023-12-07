@@ -9,10 +9,10 @@ void Copter::follow_location(){
             setupDone = true;
             return;
         }
-    }
+    } 
 
-    if(setupDone){
-        if ((!flightmode->is_taking_off()) && followLocation.change_location()){ //If the drone has taken off and the locations has been changed
+    if(true){ //
+        if ((!flightmode->is_taking_off()) && followLocation.change_location(gpsParser)){ //If the drone has taken off and the locations has been changed
             if (followLocation.check_location()){
                 followLocation.update_velocity();       // Update the velocity and the direction of the drone
                 return;
