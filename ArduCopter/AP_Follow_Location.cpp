@@ -13,9 +13,116 @@ void AP_Follow_Location::_init(){
    startLoc.alt = 13;
 }
 
+bool AP_Follow_Location::getSimLoc() {
+   Copter::simVar;
+   if (simVar== 0) {
+         newLoc = Coordinate1;
+      } else if (simVar== 1) {
+         newLoc = Coordinate2;
+      } else if (simVar== 2) {
+         newLoc = Coordinate3;
+      } else if (simVar== 3) {
+         newLoc = Coordinate4;
+      } else if (simVar== 4) {
+         newLoc = Coordinate5;
+      } else if (simVar== 5) {
+         newLoc = Coordinate6;
+      } else if (simVar== 6) {
+         newLoc = Coordinate7;
+      } else if (simVar== 7) {
+         newLoc = Coordinate8;
+      } else if (simVar== 8) {
+         newLoc = Coordinate9;
+      } else if (simVar== 9) {
+         newLoc = Coordinate10;
+      } else if (simVar== 10) {
+         newLoc = Coordinate11;
+      } else if (simVar== 11) {
+         newLoc = Coordinate12;
+      } else if (simVar== 12) {
+         newLoc = Coordinate13;
+      } else if (simVar== 13) {
+         newLoc = Coordinate14;
+      } else if (simVar== 14) {
+         newLoc = Coordinate15;
+      } else if (simVar== 15) {
+         newLoc = Coordinate16;
+      } else if (simVar== 16) {
+         newLoc = Coordinate17;
+      } else if (simVar== 17) {
+         newLoc = Coordinate18;
+      } else if (simVar== 18) {
+         newLoc = Coordinate19;
+      } else if (simVar== 19) {
+         newLoc = Coordinate20;
+      } else if (simVar== 20) {
+         newLoc = Coordinate21;
+      } else if (simVar== 21) {
+         newLoc = Coordinate22;
+      } else if (simVar== 22) {
+         newLoc = Coordinate23;
+      } else if (simVar== 23) {
+         newLoc = Coordinate24;
+      } else if (simVar== 24) {
+         newLoc = Coordinate25;
+      } else if (simVar== 25) {
+         newLoc = Coordinate26;
+      } else if (simVar== 26) {
+         newLoc = Coordinate27;
+      } else if (simVar== 27) {
+         newLoc = Coordinate28;
+      } else if (simVar== 28) {
+         newLoc = Coordinate29;
+      } else if (simVar== 29) {
+         newLoc = Coordinate30;
+      } else if (simVar== 30) {
+         newLoc = Coordinate31;
+      } else if (simVar== 31) {
+         newLoc = Coordinate32;
+      } else if (simVar== 32) {
+         newLoc = Coordinate33;
+      } else if (simVar== 33) {
+         newLoc = Coordinate34; 
+      } else if (simVar== 34) {
+         newLoc = Coordinate35;
+      } else if (simVar== 35) {
+         newLoc = Coordinate36;
+      } else if (simVar== 36) {
+         newLoc = Coordinate37;
+      } else if (simVar== 37) {
+         newLoc = Coordinate38;
+      } else if (simVar== 38) {
+         newLoc = Coordinate39;
+      } else if (simVar== 39) {
+         newLoc = Coordinate40;
+      } else if (simVar== 40) {
+         newLoc = Coordinate41;
+      } else if (simVar== 41) {
+         newLoc = Coordinate42;
+      } else if (simVar== 42) {
+         newLoc = Coordinate43;
+      } else if (simVar== 43) {
+         newLoc = Coordinate44;
+      } else if (simVar== 44) {
+         newLoc = Coordinate45;
+      } else if (simVar== 45) {
+         newLoc = Coordinate46;
+      } else if (simVar== 46) {
+         newLoc = Coordinate47;
+      } else if (simVar== 47) {
+         newLoc = Coordinate48;
+      } else if (simVar== 48) {
+         newLoc = Coordinate49;
+      } else if (simVar== 49) {
+         newLoc = Coordinate50;
+      } else if (simVar== 50) {
+         newLoc = Coordinate51;
+      }
+}
+
 bool AP_Follow_Location::get_location(AP_GPSParser _gpsParser){
-   receivedLoc.lat = _gpsParser.get_latitude();
-   receivedLoc.lng = _gpsParser.get_longitude();
+   // receivedLoc.lat = _gpsParser.get_latitude();
+   // receivedLoc.lng = _gpsParser.get_longitude();
    hal.console->printf("Latitude %li \n", receivedLoc.lat);
    hal.console->printf("Longitude %li \n", receivedLoc.lng);
    return true;

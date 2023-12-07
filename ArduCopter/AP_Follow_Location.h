@@ -16,6 +16,7 @@ public:
     void update_velocity();
     bool change_location(AP_GPSParser gpsParser);
     bool check_location();
+    Location getSimLoc();
 private:
     bool get_location(AP_GPSParser gpsParser);
     double get_distance();

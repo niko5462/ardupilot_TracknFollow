@@ -549,7 +549,7 @@ private:
     
     //GpsParser Handling
     AP_GPSParser gpsParser;
-
+    int simVar = 0;
     //Follow Location
     AP_Follow_Location followLocation;
 
