@@ -66,7 +66,7 @@ void AP_GPSParser::save_to_buffer(uint8_t data){
     if (mavlink_buffer_index < sizeof(mavlink_buffer) - 1){
         mavlink_buffer[mavlink_buffer_index] = data;
         mavlink_buffer_index++;
-        mavlink_buffer[mavlink_buffer_index] = '\0'; // Null-terminate the buffer
+        mavlink_buffer[mavlink_buffer_index] = '\0';
     }
 }
 
@@ -78,7 +78,6 @@ bool AP_GPSParser::has_recieved_message(){
     }
 }
 
-// make a function that returns the latitude and longitude
 void AP_GPSParser::split_coordinates(){
     latitude = strtok((char *)mavlink_buffer, ",");
     longitude = strtok(NULL, ",");

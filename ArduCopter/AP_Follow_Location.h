@@ -31,8 +31,6 @@ private:
     float x1;
     float y1;
     float z1;
-    int count;
-    int previous_count;
     int range;
     int num;
     bool DoesItWork = true;

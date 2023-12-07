@@ -3,7 +3,7 @@
 #include <AP_Common/Location.h>
 
 AP_Follow_Location::AP_Follow_Location(){
-
+   // constructor
 }
 
 void AP_Follow_Location::_init(){
@@ -14,50 +14,30 @@ void AP_Follow_Location::_init(){
 }
 
 bool AP_Follow_Location::get_location(AP_GPSParser _gpsParser){
-   // This function gets the location from the Link module
    receivedLoc.lat = _gpsParser.get_latitude();
    receivedLoc.lng = _gpsParser.get_longitude();
-   hal.console->printf("Latitude %li \n",receivedLoc.lat);
-   hal.console->printf("Longitude %li \n",receivedLoc.lng);
+   hal.console->printf("Latitude %li \n", receivedLoc.lat);
+   hal.console->printf("Longitude %li \n", receivedLoc.lng);
    return true;
 }
 
 bool AP_Follow_Location::change_location(AP_GPSParser _gpsParser){
-   // This function gets the location from the Link module
-   if (get_location(_gpsParser)){                   // TODO: add that it only goes into this if statement if the location has changed as well
-      NewLoc.alt = receivedLoc.alt; 
+   if (get_location(_gpsParser)){
+      NewLoc.alt = receivedLoc.alt;
       NewLoc.lat = receivedLoc.lat;
       NewLoc.lng = receivedLoc.lng;
       return true;
-   } else{
+   }else {
       return false;
    }
-   
-   // Temporary location for testing
-   // NewLoc.alt = StartLoc.alt;
-   // NewLoc.lat = StartLoc.lat;
-   // NewLoc.lng = StartLoc.lng;
-   
-   /* ________________________________________________For testing _______________________________________________
-
-   if (count != previous_count) { //whenever the count variable changes, add 5 to the lattitude and longitude
-      NewLoc.lat -= 500;
-      NewLoc.lng -= 500;
-      previous_count = count;
-   }
-   return true;
-   
-   // ____________________________________________________________________________________________________________*/
 }
 
 bool AP_Follow_Location::check_location(){
-   if (!check_latlng(NewLoc.lat, NewLoc.lng)) {
-      // failed as the new location is not valid
+   if (!check_latlng(NewLoc.lat, NewLoc.lng)){
       return false;
-   } else if(NewLoc.sanitize(copter.current_loc)){ // if the location wasn't already sane don't load it
-      // failed as the current location is not valid
+   } else if (NewLoc.sanitize(copter.current_loc)){ 
       return false;
-   } else{
+   } else {
       return true;
    }
 }
@@ -65,31 +45,24 @@ bool AP_Follow_Location::check_location(){
 double AP_Follow_Location::get_distance(){
    x1 = copter.current_loc.get_distance_NE(NewLoc).x;
    y1 = copter.current_loc.get_distance_NE(NewLoc).y;
-   z1 = copter.current_loc.get_alt_cm(NewLoc.get_alt_frame(),NewLoc.alt);
-   return sqrt(x1*x1 + y1*y1);
+   z1 = copter.current_loc.get_alt_cm(NewLoc.get_alt_frame(), NewLoc.alt);
+   return sqrt(x1 * x1 + y1 * y1);
 }
 
 void AP_Follow_Location::update_velocity(){
-   range = 100; //The range of the allowed follow mode
-   kp = 1; //The proportional gain for the velocity controller
-
-   // if the drone is out of range, it should land
+   range = 50;
+   kp = 1;
    wp_len = get_distance();
    if (wp_len > range){
       copter.set_mode(Mode::Number::LAND, ModeReason::GCS_COMMAND);
-   } else if (wp_len > 7.5){
-      vel.x = (x1*100/wp_len)*kp;  // x1 is in meters and vel.x should be in cm/s. Therefroe, we multiply by 100
-      vel.y = (y1*100/wp_len)*kp;  // y1 is in meters and vel.y should be in cm/s. Therefroe, we multiply by 100
-      vel.z = z1*100/wp_len;
-   } else {
-      vel.x = 0;   // x, y, and z are set to 0 for hovering
+   }  else if (wp_len > 7.5){
+      vel.x = (x1 * 100 / wp_len) * kp; // x1 is in meters and vel.x should be in cm/s. Therefore, we multiply by 100
+      vel.y = (y1 * 100 / wp_len) * kp; // y1 is in meters and vel.y should be in cm/s. Therefore, we multiply by 100
+      vel.z = 0;
+   }  else {
+      vel.x = 0; // x, y, and z are set to 0 for hovering
       vel.y = 0;
       vel.z = 0;
-
-      count += 1; // counter to change the location
    }
    copter.mode_guided.set_velocity(vel);
 }
-
-
-
