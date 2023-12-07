@@ -11,121 +11,222 @@ void AP_Follow_Location::_init(){
    startLoc.lat = 570138730;
    startLoc.lng = 99874617;
    startLoc.alt = 13;
+   coordinate1.lat = 570138952;
+   coordinate1.lng = 99874556;
+   coordinate2.lat = 570139262;
+   coordinate2.lng = 99874865;
+   coordinate3.lat = 570139571;
+   coordinate3.lng = 99875174;
+   coordinate4.lat = 570139880;
+   coordinate4.lng = 99875484;
+   coordinate5.lat = 570140189;
+   coordinate5.lng = 99875793;
+   coordinate6.lat = 570140498;
+   coordinate6.lng = 99876102;
+   coordinate7.lat = 570140808;
+   coordinate7.lng = 99876411;
+   coordinate8.lat = 570141117;
+   coordinate8.lng = 99876721;
+   coordinate9.lat = 570141426;
+   coordinate9.lng = 99877030;
+   coordinate10.lat = 570141735;
+   coordinate10.lng = 99877339;
+   coordinate11.lat = 570142044;
+   coordinate11.lng = 99877648;
+   coordinate12.lat = 570142354;
+   coordinate12.lng = 99877957;
+   coordinate13.lat = 570142663;
+   coordinate13.lng = 99878267;
+   coordinate14.lat = 570142972;
+   coordinate14.lng = 99878576;
+   coordinate15.lat = 570143281;
+   coordinate15.lng = 99878885;
+   coordinate16.lat = 570143591;
+   coordinate16.lng = 99879194;
+   coordinate17.lat = 570143900;
+   coordinate17.lng = 99879503;
+   coordinate18.lat = 570144209;
+   coordinate18.lng = 99879813;
+   coordinate19.lat = 570144518;
+   coordinate19.lng = 99880122;
+   coordinate20.lat = 570144827;
+   coordinate20.lng = 99880431;
+   coordinate21.lat = 570145137;
+   coordinate21.lng = 99880740;
+   coordinate22.lat = 570145446;
+   coordinate22.lng = 99881050;
+   coordinate23.lat = 570145755;
+   coordinate23.lng = 99881359;
+   coordinate24.lat = 570146064;
+   coordinate24.lng = 99881668;
+   coordinate25.lat = 570146373;
+   coordinate25.lng = 99881977;
+   coordinate26.lat = 570146683;
+   coordinate26.lng = 99882286;
+   coordinate27.lat = 570146992;
+   coordinate27.lng = 99882596;
+   coordinate28.lat = 570147301;
+   coordinate28.lng = 99882905;
+   coordinate29.lat = 570147610;
+   coordinate29.lng = 99883214;
+   coordinate30.lat = 570147920;
+   coordinate30.lng = 99883523;
+   coordinate31.lat = 570148229;
+   coordinate31.lng = 99883832;
+   coordinate32.lat = 570148538;
+   coordinate32.lng = 99884142;
+   coordinate33.lat = 570148847;
+   coordinate33.lng = 99884451;
+   coordinate34.lat = 570149150;
+   coordinate34.lng = 99884754;
+   coordinate35.lat = 570149451;
+   coordinate35.lng = 99885054;
+   coordinate36.lat = 570149751;
+   coordinate36.lng = 99885354;
+   coordinate37.lat = 570150051;
+   coordinate37.lng = 99885654;
+   coordinate38.lat = 570150351;
+   coordinate38.lng = 99885955;
+   coordinate39.lat = 570150651;
+   coordinate39.lng = 99886255;
+   coordinate40.lat = 570150951;
+   coordinate40.lng = 99886555;
+   coordinate41.lat = 570151251;
+   coordinate41.lng = 99886855;
+   coordinate42.lat = 570151551;
+   coordinate42.lng = 99887155;
+   coordinate43.lat = 570151851;
+   coordinate43.lng = 99887455;
+   coordinate44.lat = 570152152;
+   coordinate44.lng = 99887755;
+   coordinate45.lat = 570152452;
+   coordinate45.lng = 99888055;
+   coordinate46.lat = 570152752;
+   coordinate46.lng = 99888356;
+   coordinate47.lat = 570153052;
+   coordinate47.lng = 99888656;
+   coordinate48.lat = 570153352;
+   coordinate48.lng = 99888956;
+   coordinate49.lat = 570153652;
+   coordinate49.lng = 99889256;
+   coordinate50.lat = 570153952;
+   coordinate50.lng = 99889556;
+
 }
 
 bool AP_Follow_Location::getSimLoc() {
-   Copter::simVar;
-   if (simVar== 0) {
+
+      if (copter.simVar == 0) {
          newLoc = coordinate1;
-      } else if (simVar== 1) {
-         newLoc = Coordinate2;
-      } else if (simVar== 2) {
-         newLoc = Coordinate3;
-      } else if (simVar== 3) {
-         newLoc = Coordinate4;
-      } else if (simVar== 4) {
-         newLoc = Coordinate5;
-      } else if (simVar== 5) {
-         newLoc = Coordinate6;
-      } else if (simVar== 6) {
-         newLoc = Coordinate7;
-      } else if (simVar== 7) {
-         newLoc = Coordinate8;
-      } else if (simVar== 8) {
-         newLoc = Coordinate9;
-      } else if (simVar== 9) {
-         newLoc = Coordinate10;
-      } else if (simVar== 10) {
-         newLoc = Coordinate11;
-      } else if (simVar== 11) {
-         newLoc = Coordinate12;
-      } else if (simVar== 12) {
-         newLoc = Coordinate13;
-      } else if (simVar== 13) {
-         newLoc = Coordinate14;
-      } else if (simVar== 14) {
-         newLoc = Coordinate15;
-      } else if (simVar== 15) {
-         newLoc = Coordinate16;
-      } else if (simVar== 16) {
-         newLoc = Coordinate17;
-      } else if (simVar== 17) {
-         newLoc = Coordinate18;
-      } else if (simVar== 18) {
-         newLoc = Coordinate19;
-      } else if (simVar== 19) {
-         newLoc = Coordinate20;
-      } else if (simVar== 20) {
-         newLoc = Coordinate21;
-      } else if (simVar== 21) {
-         newLoc = Coordinate22;
-      } else if (simVar== 22) {
-         newLoc = Coordinate23;
-      } else if (simVar== 23) {
-         newLoc = Coordinate24;
-      } else if (simVar== 24) {
-         newLoc = Coordinate25;
-      } else if (simVar== 25) {
-         newLoc = Coordinate26;
-      } else if (simVar== 26) {
-         newLoc = Coordinate27;
-      } else if (simVar== 27) {
-         newLoc = Coordinate28;
-      } else if (simVar== 28) {
-         newLoc = Coordinate29;
-      } else if (simVar== 29) {
-         newLoc = Coordinate30;
-      } else if (simVar== 30) {
-         newLoc = Coordinate31;
-      } else if (simVar== 31) {
-         newLoc = Coordinate32;
-      } else if (simVar== 32) {
-         newLoc = Coordinate33;
-      } else if (simVar== 33) {
-         newLoc = Coordinate34; 
-      } else if (simVar== 34) {
-         newLoc = Coordinate35;
-      } else if (simVar== 35) {
-         newLoc = Coordinate36;
-      } else if (simVar== 36) {
-         newLoc = Coordinate37;
-      } else if (simVar== 37) {
-         newLoc = Coordinate38;
-      } else if (simVar== 38) {
-         newLoc = Coordinate39;
-      } else if (simVar== 39) {
-         newLoc = Coordinate40;
-      } else if (simVar== 40) {
-         newLoc = Coordinate41;
-      } else if (simVar== 41) {
-         newLoc = Coordinate42;
-      } else if (simVar== 42) {
-         newLoc = Coordinate43;
-      } else if (simVar== 43) {
-         newLoc = Coordinate44;
-      } else if (simVar== 44) {
-         newLoc = Coordinate45;
-      } else if (simVar== 45) {
-         newLoc = Coordinate46;
-      } else if (simVar== 46) {
-         newLoc = Coordinate47;
-      } else if (simVar== 47) {
-         newLoc = Coordinate48;
-      } else if (simVar== 48) {
-         newLoc = Coordinate49;
-      } else if (simVar== 49) {
-         newLoc = Coordinate50;
-      } else if (simVar== 50) {
-         newLoc = Coordinate51;
+      } else if (copter.simVar == 1) {
+         newLoc = coordinate2;
+      } else if (copter.simVar == 2) {
+         newLoc = coordinate3;
+      } else if (copter.simVar == 3) {
+         newLoc = coordinate4;
+      } else if (copter.simVar == 4) {
+         newLoc = coordinate5;
+      } else if (copter.simVar == 5) {
+         newLoc = coordinate6;
+      } else if (copter.simVar == 6) {
+         newLoc = coordinate7;
+      } else if (copter.simVar == 7) {
+         newLoc = coordinate8;
+      } else if (copter.simVar == 8) {
+         newLoc = coordinate9;
+      } else if (copter.simVar == 9) {
+         newLoc = coordinate10;
+      } else if (copter.simVar == 10) {
+         newLoc = coordinate11;
+      } else if (copter.simVar == 11) {
+         newLoc = coordinate12;
+      } else if (copter.simVar == 12) {
+         newLoc = coordinate13;
+      } else if (copter.simVar == 13) {
+         newLoc = coordinate14;
+      } else if (copter.simVar == 14) {
+         newLoc = coordinate15;
+      } else if (copter.simVar == 15) {
+         newLoc = coordinate16;
+      } else if (copter.simVar == 16) {
+         newLoc = coordinate17;
+      } else if (copter.simVar == 17) {
+         newLoc = coordinate18;
+      } else if (copter.simVar == 18) {
+         newLoc = coordinate19;
+      } else if (copter.simVar == 19) {
+         newLoc = coordinate20;
+      } else if (copter.simVar == 20) {
+         newLoc = coordinate21;
+      } else if (copter.simVar == 21) {
+         newLoc = coordinate22;
+      } else if (copter.simVar == 22) {
+         newLoc = coordinate23;
+      } else if (copter.simVar == 23) {
+         newLoc = coordinate24;
+      } else if (copter.simVar == 24) {
+         newLoc = coordinate25;
+      } else if (copter.simVar == 25) {
+         newLoc = coordinate26;
+      } else if (copter.simVar == 26) {
+         newLoc = coordinate27;
+      } else if (copter.simVar == 27) {
+         newLoc = coordinate28;
+      } else if (copter.simVar == 28) {
+         newLoc = coordinate29;
+      } else if (copter.simVar == 29) {
+         newLoc = coordinate30;
+      } else if (copter.simVar == 30) {
+         newLoc = coordinate31;
+      } else if (copter.simVar == 31) {
+         newLoc = coordinate32;
+      } else if (copter.simVar == 32) {
+         newLoc = coordinate33;
+      } else if (copter.simVar == 33) {
+         newLoc = coordinate34; 
+      } else if (copter.simVar == 34) {
+         newLoc = coordinate35;
+      } else if (copter.simVar == 35) {
+         newLoc = coordinate36;
+      } else if (copter.simVar == 36) {
+         newLoc = coordinate37;
+      } else if (copter.simVar == 37) {
+         newLoc = coordinate38;
+      } else if (copter.simVar == 38) {
+         newLoc = coordinate39;
+      } else if (copter.simVar == 39) {
+         newLoc = coordinate40;
+      } else if (copter.simVar == 40) {
+         newLoc = coordinate41;
+      } else if (copter.simVar == 41) {
+         newLoc = coordinate42;
+      } else if (copter.simVar == 42) {
+         newLoc = coordinate43;
+      } else if (copter.simVar == 43) {
+         newLoc = coordinate44;
+      } else if (copter.simVar == 44) {
+         newLoc = coordinate45;
+      } else if (copter.simVar == 45) {
+         newLoc = coordinate46;
+      } else if (copter.simVar == 46) {
+         newLoc = coordinate47;
+      } else if (copter.simVar == 47) {
+         newLoc = coordinate48;
+      } else if (copter.simVar == 48) {
+         newLoc = coordinate49;
+      } else if (copter.simVar == 49) {
+         newLoc = coordinate50;
       }
-      simVar++;
+
+      copter.simVar++;
+      return true;
 }
 
 bool AP_Follow_Location::get_location(AP_GPSParser _gpsParser){
    // receivedLoc.lat = _gpsParser.get_latitude();
    // receivedLoc.lng = _gpsParser.get_longitude();
-   hal.console->printf("Latitude %li \n", receivedLoc.lat);
-   hal.console->printf("Longitude %li \n", receivedLoc.lng);
+   // hal.console->printf("Latitude %li \n", receivedLoc.lat);
+   // hal.console->printf("Longitude %li \n", receivedLoc.lng);
    return true;
 }
 

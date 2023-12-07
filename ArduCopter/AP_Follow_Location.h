@@ -17,7 +17,7 @@ public:
     void update_velocity();
     bool change_location(AP_GPSParser gpsParser);
     bool check_location();
-    Location getSimLoc();
+    bool getSimLoc();
 
 private:
     bool get_location(AP_GPSParser gpsParser);
@@ -38,6 +38,7 @@ private:
     int range;
     int num;
     bool DoesItWork = true;
+
     Location coordinate1;
     Location coordinate2;
     Location coordinate3;
@@ -88,105 +89,11 @@ private:
     Location coordinate48;
     Location coordinate49;
     Location coordinate50;
-    Coordinate1.lat = 570138952;
-    Coordinate1.lng = 99874556;
-    Coordinate2.lat = 57.0139262;
-    Coordinate2.lng = 9.9874865;
-    Coordinate3.lat = 57.0139571;
-    Coordinate3.lng = 9.9875174;
-    Coordinate4.lat = 57.0139880;
-    Coordinate4.lng = 9.9875484;
-    Coordinate5.lat = 57.0140189;
-    Coordinate5.lng = 9.9875793;
-    Coordinate6.lat = 57.0140498;
-    Coordinate6.lng = 9.9876102;
-    Coordinate7.lat = 57.0140808;
-    Coordinate7.lng = 9.9876411;
-    Coordinate8.lat = 57.0141117;
-    Coordinate8.lng = 9.9876721;
-    Coordinate9.lat = 57.0141426;
-    Coordinate9.lng = 9.9877030;
-    Coordinate10.lat = 57.0141735;
-    Coordinate10.lng = 9.9877339;
-    Coordinate11.lat = 57.0142044;
-    Coordinate11.lng = 9.9877648;
-    Coordinate12.lat = 57.0142354;
-    Coordinate12.lng = 9.9877957;
-    Coordinate13.lat = 57.0142663;
-    Coordinate13.lng = 9.9878267;
-    Coordinate14.lat = 57.0142972;
-    Coordinate14.lng = 9.9878576;
-    Coordinate15.lat = 57.0143281;
-    Coordinate15.lng = 9.9878885;
-    Coordinate16.lat = 57.0143591;
-    Coordinate16.lng = 9.9879194;
-    Coordinate17.lat = 57.0143900;
-    Coordinate17.lng = 9.9879503;
-    Coordinate18.lat = 57.0144209;
-    Coordinate18.lng = 9.9879813;
-    Coordinate19.lat = 57.0144518;
-    Coordinate19.lng = 9.9880122;
-    Coordinate20.lat = 57.0144827;
-    Coordinate20.lng = 9.9880431;
-    Coordinate21.lat = 57.0145137;
-    Coordinate21.lng = 9.9880740;
-    Coordinate22.lat = 57.0145446;
-    Coordinate22.lng = 9.9881050;
-    Coordinate23.lat = 57.0145755;
-    Coordinate23.lng = 9.9881359;
-    Coordinate24.lat = 57.0146064;
-    Coordinate24.lng = 9.9881668;
-    Coordinate25.lat = 57.0146373;
-    Coordinate25.lng = 9.9881977;
-    Coordinate26.lat = 57.0146683;
-    Coordinate26.lng = 9.9882286;
-    Coordinate27.lat = 57.0146992;
-    Coordinate27.lng = 9.9882596;
-    Coordinate28.lat = 57.0147301;
-    Coordinate28.lng = 9.9882905;
-    Coordinate29.lat = 57.0147610;
-    Coordinate29.lng = 9.9883214;
-    Coordinate30.lat = 57.0147920;
-    Coordinate30.lng = 9.9883523;
-    Coordinate31.lat = 57.0148229;
-    Coordinate31.lng = 9.9883832;
-    Coordinate32.lat = 57.0148538;
-    Coordinate32.lng = 9.9884142;
-    Coordinate33.lat = 57.0148847;
-    Coordinate33.lng = 9.9884451;
-    Coordinate34.lat = 57.0149150;
-    Coordinate34.lng = 9.9884754;
-    Coordinate35.lat = 57.0149451;
-    Coordinate35.lng = 9.9885054;
-    Coordinate36.lat = 57.0149751;
-    Coordinate36.lng = 9.9885354;
-    Coordinate37.lat = 57.0150051;
-    Coordinate37.lng = 9.9885654;
-    Coordinate38.lat = 57.0150351;
-    Coordinate38.lng = 9.9885955;
-    Coordinate39.lat = 57.0150651;
-    Coordinate39.lng = 9.9886255;
-    Coordinate40.lat = 57.0150951;
-    Coordinate40.lng = 9.9886555;
-    Coordinate41.lat = 57.0151251;
-    Coordinate41.lng = 9.9886855;
-    Coordinate42.lat = 57.0151551;
-    Coordinate42.lng = 9.9887155;
-    Coordinate43.lat = 57.0151851;
-    Coordinate43.lng = 9.9887455;
-    Coordinate44.lat = 57.0152152;
-    Coordinate44.lng = 9.9887755;
-    Coordinate45.lat = 57.0152452;
-    Coordinate45.lng = 9.9888055;
-    Coordinate46.lat = 57.0152752;
-    Coordinate46.lng = 9.9888356;
-    Coordinate47.lat = 57.0153052;
-    Coordinate47.lng = 9.9888656;
-    Coordinate48.lat = 57.0153352;
-    Coordinate48.lng = 9.9888956;
-    Coordinate49.lat = 57.0153652;
-    Coordinate49.lng = 9.9889256;
-    Coordinate50.lat = 57.0153952;
-    Coordinate50.lng = 9.9889556;
+
+
+
+    
+
+
 };
 #endif // AP_Follow_Location_H
