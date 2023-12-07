@@ -38,7 +38,6 @@ private:
     int range;
     int num;
     bool DoesItWork = true;
-
     Location coordinate1;
     Location coordinate2;
     Location coordinate3;
@@ -89,11 +88,5 @@ private:
     Location coordinate48;
     Location coordinate49;
     Location coordinate50;
-
-
-
-    
-
-
 };
 #endif // AP_Follow_Location_H
