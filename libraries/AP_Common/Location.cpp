@@ -357,8 +357,59 @@ bool Location::sanitize(const Location &defaultLoc)
         lng = defaultLoc.lng;
         has_changed = true;
     }
-
     return has_changed;
+}
+
+bool Location::sanitize(const Location &defaultLoc, const Location &prevLoc)
+{
+   bool has_changed = false;
+    // convert lat/lng=0 to mean current point
+    if (lat == 0 && lng == 0) {
+        lat = defaultLoc.lat;
+        lng = defaultLoc.lng;
+        has_changed = true;
+    }
+
+    // convert relative alt=0 to mean current alt
+    if (alt == 0 && relative_alt) {
+        int32_t defaultLoc_alt;
+        if (defaultLoc.get_alt_cm(get_alt_frame(), defaultLoc_alt)) {
+            alt = defaultLoc_alt;
+            has_changed = true;
+        }
+    }
+
+    // limit lat/lng to appropriate ranges
+    if (!check_latlng()) {
+        lat = defaultLoc.lat;
+        lng = defaultLoc.lng;
+        has_changed = true;
+    }
+
+    
+    if (is_out_of_range(lat, prevLoc.lat, 10000) || is_out_of_range(lng, prevLoc.lng, 10000)){
+        lat = defaultLoc.lat;
+        lng = defaultLoc.lng;
+        has_changed = true;
+    }
+    
+    return has_changed;
+}
+
+/**
+ * Checks if the current latitude is out of range from the previous latitude.
+ * 
+ * @param currentLat The current latitude in degrees.
+ * @param previousLat The previous latitude in degrees.
+ * @param distance The maximum allowed distance in degrees. 1000 ~ 111m
+ * @return True if the current latitude is out of range, false otherwise.
+ */
+bool Location::is_out_of_range(int32_t current_coordinate, int32_t previous_coordinate, int distance){
+   int32_t delta = abs(current_coordinate - previous_coordinate);
+    if(delta > distance){
+        return true;
+    }
+    return false;
 }
 
 // make sure we know what size the Location object is:

@@ -53,7 +53,7 @@ void AP_GPSParser::read_from_serial(AP_HAL::UARTDriver *uart_param, const char *
                 readData = true;
             }else if (readData){
                 save_to_buffer(inc_data);
-                if (inc_data == '\n'){
+                if (inc_data == '\r'){
                     split_coordinates();
                     readData = false;
                 }
@@ -70,7 +70,7 @@ void AP_GPSParser::save_to_buffer(uint8_t data){
     }
 }
 
-bool AP_GPSParser::has_recieved_message(){
+bool AP_GPSParser::has_received_message(){
     if (mavlink_buffer_index > 0){
         return true;
     }else{
@@ -82,6 +82,9 @@ void AP_GPSParser::split_coordinates(){
     latitude = strtok((char *)mavlink_buffer, ",");
     longitude = strtok(NULL, ",");
     altitude = strtok(NULL, ",");
+    hal.console->printf("Latitude: %s \n", latitude);
+    hal.console->printf("Longitude: %s \n", longitude);
+    hal.console->printf("Altitude: %s \n", altitude);
     resetBuffer();
 }
 

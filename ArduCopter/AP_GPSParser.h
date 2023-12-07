@@ -14,7 +14,7 @@ public:
     AP_GPSParser();
     void setup();
     void process();
-    bool has_recieved_message();
+    bool has_received_message();
     uint32_t get_latitude();
     uint32_t get_longitude();
 private:

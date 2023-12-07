@@ -19,8 +19,9 @@ public:
 private:
     bool get_location(AP_GPSParser gpsParser);
     double get_distance();
-    Location NewLoc;
-    Location StartLoc;
+    Location newLoc;
+    Location prevLoc;
+    Location startLoc;
     Location receivedLoc;
     Vector3f vel;
     uint8_t mavBuffLat[64];

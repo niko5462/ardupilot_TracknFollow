@@ -8,9 +8,9 @@ AP_Follow_Location::AP_Follow_Location(){
 
 void AP_Follow_Location::_init(){
    // Temporary start location for testing
-   StartLoc.lat = 570138730;
-   StartLoc.lng = 99874617;
-   StartLoc.alt = 13;
+   startLoc.lat = 570138730;
+   startLoc.lng = 99874617;
+   startLoc.alt = 13;
 }
 
 bool AP_Follow_Location::get_location(AP_GPSParser _gpsParser){
@@ -23,9 +23,13 @@ bool AP_Follow_Location::get_location(AP_GPSParser _gpsParser){
 
 bool AP_Follow_Location::change_location(AP_GPSParser _gpsParser){
    if (get_location(_gpsParser)){
-      NewLoc.alt = receivedLoc.alt;
-      NewLoc.lat = receivedLoc.lat;
-      NewLoc.lng = receivedLoc.lng;
+      prevLoc.alt = newLoc.alt;
+      prevLoc.lat = newLoc.lat;
+      prevLoc.lng = newLoc.lng;
+
+      newLoc.alt = receivedLoc.alt;
+      newLoc.lat = receivedLoc.lat;
+      newLoc.lng = receivedLoc.lng;
       return true;
    }else {
       return false;
@@ -33,9 +37,9 @@ bool AP_Follow_Location::change_location(AP_GPSParser _gpsParser){
 }
 
 bool AP_Follow_Location::check_location(){
-   if (!check_latlng(NewLoc.lat, NewLoc.lng)){
+   if (!check_latlng(newLoc.lat, newLoc.lng)){
       return false;
-   } else if (NewLoc.sanitize(copter.current_loc)){ 
+   } else if (newLoc.sanitize(copter.current_loc, prevLoc)){ 
       return false;
    } else {
       return true;
@@ -43,9 +47,9 @@ bool AP_Follow_Location::check_location(){
 }
 
 double AP_Follow_Location::get_distance(){
-   x1 = copter.current_loc.get_distance_NE(NewLoc).x;
-   y1 = copter.current_loc.get_distance_NE(NewLoc).y;
-   z1 = copter.current_loc.get_alt_cm(NewLoc.get_alt_frame(), NewLoc.alt);
+   x1 = copter.current_loc.get_distance_NE(newLoc).x;
+   y1 = copter.current_loc.get_distance_NE(newLoc).y;
+   z1 = copter.current_loc.get_alt_cm(newLoc.get_alt_frame(), newLoc.alt);
    return sqrt(x1 * x1 + y1 * y1);
 }
 
