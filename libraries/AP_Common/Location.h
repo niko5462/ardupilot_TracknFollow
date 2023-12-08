@@ -122,6 +122,10 @@ public:
      * convert invalid waypoint with useful data. return true if location changed
      */
     bool sanitize(const Location &defaultLoc);
+    bool sanitize(const Location &defaultLoc, const Location &prevLoc);
+
+    //returns true if the location is within the specified distance of the previous location
+    bool is_out_of_range(int32_t current_coordinate, int32_t previous_coordinate, int distance);
 
     // return true when lat and lng are within range
     bool check_latlng() const;

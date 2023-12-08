@@ -12,28 +12,21 @@ class AP_Follow_Location{
     friend class Copter; // for access to _chan in parameter declarations
 public:
     AP_Follow_Location();
-    void _init();
-    void update_velocity();
-    bool change_location();
-    bool check_location();
+    void update_velocity_vector();
+    bool location_changed(AP_GPSParser gpsParser);
+    bool location_valid();
 private:
-    bool get_location();
     double get_distance();
-    Location NewLoc;
-    Location StartLoc;
-    Location receivedLoc;
+    Location newLoc;
+    Location prevLoc;
     Vector3f vel;
     uint8_t mavBuffLat[64];
     uint8_t mavBuffLng[64];
     uint8_t mavBuffAlt[64];
     double wp_len;
-    float kp;
     float x1;
     float y1;
     float z1;
-    int count;
-    int previous_count;
-    int range;
     int num;
     bool DoesItWork = true;
 };

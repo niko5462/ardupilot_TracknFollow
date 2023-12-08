@@ -1,14 +1,6 @@
 #include "Copter.h"
 
-void Copter::gps_parser_task() {
-    
-    // Perform the setup only once
+void Copter::gps_parser_task(){
     gpsParser.setup();
-
-    // Process the GPS parser in each iteration
-    gpsParser.process();
+    gpsParser.loop();
 }
-
-
-
-
