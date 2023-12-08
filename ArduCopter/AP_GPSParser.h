@@ -4,7 +4,7 @@
 #define AP_GPSParser_H
 
 #include <AP_HAL/AP_HAL.h>
-//#include <AP_SerialManager/AP_SerialManager.h>
+#include <AP_SerialManager/AP_SerialManager.h>
 #include <stdio.h>
 
 
@@ -23,7 +23,7 @@ private:
     void setup_uart(AP_HAL::UARTDriver *uart, const char *name);  
     void split_coordinates();
     const AP_HAL::HAL &hal = AP_HAL::get_HAL();
-    
+
     AP_HAL::UARTDriver *uart;
     uint8_t mavlink_buffer[64];
     char *latitude;

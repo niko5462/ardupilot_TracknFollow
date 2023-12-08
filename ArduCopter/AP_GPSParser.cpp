@@ -15,7 +15,7 @@ You can then use the buffer in your code to parse the data
 
 #include "AP_GPSParser.h"
 #include <AP_HAL/AP_HAL.h>
-#include <AP_SerialManager/AP_SerialManager.h>
+
 
 AP_SerialManager serial_manager;
 
