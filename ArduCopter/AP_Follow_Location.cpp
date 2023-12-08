@@ -1,42 +1,24 @@
 #include "AP_Follow_Location.h"
 #include "Copter.h"
-#include <AP_Common/Location.h>
 
+#define RANGE 50
+#define KP 1
+#define PERIPHERY 7.5
+
+// constructor
 AP_Follow_Location::AP_Follow_Location(){
-   // constructor
 }
 
-void AP_Follow_Location::_init(){
-   // Temporary start location for testing
-   startLoc.lat = 570138730;
-   startLoc.lng = 99874617;
-   startLoc.alt = 13;
-}
-
-bool AP_Follow_Location::get_location(AP_GPSParser _gpsParser){
-   receivedLoc.lat = _gpsParser.get_latitude();
-   receivedLoc.lng = _gpsParser.get_longitude();
-   hal.console->printf("Latitude %li \n", receivedLoc.lat);
-   hal.console->printf("Longitude %li \n", receivedLoc.lng);
-   return true;
-}
-
-bool AP_Follow_Location::change_location(AP_GPSParser _gpsParser){
-   if (get_location(_gpsParser)){
-      prevLoc.alt = newLoc.alt;
+bool AP_Follow_Location::location_changed(AP_GPSParser _gpsParser){
       prevLoc.lat = newLoc.lat;
       prevLoc.lng = newLoc.lng;
 
-      newLoc.alt = receivedLoc.alt;
-      newLoc.lat = receivedLoc.lat;
-      newLoc.lng = receivedLoc.lng;
+      newLoc.lat = _gpsParser.get_latitude();
+      newLoc.lng = _gpsParser.get_longitude();
       return true;
-   }else {
-      return false;
-   }
 }
 
-bool AP_Follow_Location::check_location(){
+bool AP_Follow_Location::location_valid(){
    if (!check_latlng(newLoc.lat, newLoc.lng)){
       return false;
    } else if (newLoc.sanitize(copter.current_loc, prevLoc)){ 
@@ -53,15 +35,14 @@ double AP_Follow_Location::get_distance(){
    return sqrt(x1 * x1 + y1 * y1);
 }
 
-void AP_Follow_Location::update_velocity(){
-   range = 50;
-   kp = 1;
+void AP_Follow_Location::update_velocity_vector(){
    wp_len = get_distance();
-   if (wp_len > range){
-      copter.set_mode(Mode::Number::LAND, ModeReason::GCS_COMMAND);
-   }  else if (wp_len > 7.5){
-      vel.x = (x1 * 100 / wp_len) * kp; // x1 is in meters and vel.x should be in cm/s. Therefore, we multiply by 100
-      vel.y = (y1 * 100 / wp_len) * kp; // y1 is in meters and vel.y should be in cm/s. Therefore, we multiply by 100
+   if (wp_len > RANGE){
+      //automatic position hold with manual override, with automatic throttle
+      copter.set_mode(Mode::Number::POSHOLD, ModeReason::GCS_COMMAND);
+   }  else if (wp_len > PERIPHERY){
+      vel.x = (x1 * 100 / wp_len) * KP; // x1 is in meters and vel.x should be in cm/s. Therefore, we multiply by 100
+      vel.y = (y1 * 100 / wp_len) * KP; // y1 is in meters and vel.y should be in cm/s. Therefore, we multiply by 100
       vel.z = 0;
    }  else {
       vel.x = 0; // x, y, and z are set to 0 for hovering

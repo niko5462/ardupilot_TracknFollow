@@ -401,7 +401,7 @@ bool Location::sanitize(const Location &defaultLoc, const Location &prevLoc)
  * 
  * @param currentLat The current latitude in degrees.
  * @param previousLat The previous latitude in degrees.
- * @param distance The maximum allowed distance in degrees. 1000 ~ 111m
+ * @param distance The maximum allowed distance in degrees. 1000 (0.001*10^7) ~ 111m
  * @return True if the current latitude is out of range, false otherwise.
  */
 bool Location::is_out_of_range(int32_t current_coordinate, int32_t previous_coordinate, int distance){

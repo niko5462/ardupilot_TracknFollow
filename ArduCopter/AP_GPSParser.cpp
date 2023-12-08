@@ -19,8 +19,8 @@ You can then use the buffer in your code to parse the data
 
 AP_SerialManager serial_manager;
 
+ // constructor
 AP_GPSParser::AP_GPSParser() : uart(nullptr), mavlink_buffer_index(0){
-    // constructor
 }
 
 void AP_GPSParser::setup(){
@@ -38,7 +38,7 @@ void AP_GPSParser::setup_uart(AP_HAL::UARTDriver *uart_param, const char *name){
     uart->begin(57600);
 }
 
-void AP_GPSParser::process(){
+void AP_GPSParser::loop(){
     read_from_serial(serial_manager.get_serial_by_id(1), "SERIAL1");
 }
 
@@ -48,7 +48,7 @@ void AP_GPSParser::read_from_serial(AP_HAL::UARTDriver *uart_param, const char *
         return;
     }else{
         while (uart_param->available()){
-            uint8_t inc_data = uart_param->read();
+            inc_data = uart_param->read();
             if (inc_data == '$'){
                 readData = true;
             }else if (readData){
@@ -70,30 +70,21 @@ void AP_GPSParser::save_to_buffer(uint8_t data){
     }
 }
 
-bool AP_GPSParser::has_received_message(){
-    if (mavlink_buffer_index > 0){
-        return true;
-    }else{
-        return false;
-    }
-}
-
 void AP_GPSParser::split_coordinates(){
+    // strtok splits char array
     latitude = strtok((char *)mavlink_buffer, ",");
     longitude = strtok(NULL, ",");
     altitude = strtok(NULL, ",");
-    hal.console->printf("Latitude: %s \n", latitude);
-    hal.console->printf("Longitude: %s \n", longitude);
-    hal.console->printf("Altitude: %s \n", altitude);
-    resetBuffer();
+    reset_buffer();
 }
 
-void AP_GPSParser::resetBuffer(){
+void AP_GPSParser::reset_buffer(){
     mavlink_buffer[0] = '\0';
     mavlink_buffer_index = 0;
 }
 
 uint32_t AP_GPSParser::get_latitude(){
+    // atof convert a string to a floating-point number.
     latf = atof(latitude) * 10000000.0;
     lat = static_cast<uint32_t>(latf);
     return lat;
