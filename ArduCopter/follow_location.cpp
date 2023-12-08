@@ -22,3 +22,6 @@ void Copter::follow_location(){
         return;
     }
 }
+// void Copter::update_sim_destination(){
+//     followLocation.getSimLoc();
+// }

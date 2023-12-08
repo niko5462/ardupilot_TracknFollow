@@ -111,11 +111,10 @@ void AP_Follow_Location::_init(){
    coordinate49.lng = 99888870;
    coordinate50.lat = 570153952;
    coordinate50.lng = 99889556;
-
 }
 
 bool AP_Follow_Location::getSimLoc() {
-
+      newLoc = startLoc;
       if (copter.simVar == 0) {
          newLoc = coordinate1;
       } else if (copter.simVar == 1) {
@@ -216,9 +215,10 @@ bool AP_Follow_Location::getSimLoc() {
          newLoc = coordinate49;
       } else if (copter.simVar == 49) {
          newLoc = coordinate50;
+      } else if (copter.simVar > 49){
+         copter.simVar = 0;
       }
 
-      copter.simVar++;
       return true;
 }
 
@@ -248,7 +248,7 @@ bool AP_Follow_Location::change_location(AP_GPSParser _gpsParser){
 bool AP_Follow_Location::check_location(){
    if (!check_latlng(newLoc.lat, newLoc.lng)){
       return false;
-   } else if (newLoc.sanitize(copter.current_loc, prevLoc)){ 
+   } else if (newLoc.sanitize(copter.current_loc/*, prevLoc*/)){ // In comment this in real code
       return false;
    } else {
       return true;
@@ -263,8 +263,8 @@ double AP_Follow_Location::get_distance(){
 }
 
 void AP_Follow_Location::update_velocity(){
-   range = 50;
-   kp = 1;
+   range = 200;
+   kp = 3;
    wp_len = get_distance();
    if (wp_len > range){
       copter.set_mode(Mode::Number::LAND, ModeReason::GCS_COMMAND);
@@ -276,6 +276,8 @@ void AP_Follow_Location::update_velocity(){
       vel.x = 0; // x, y, and z are set to 0 for hovering
       vel.y = 0;
       vel.z = 0;
+      copter.simVar += 1;
+      hal.console->printf("NewLoc: %i, %i\n", newLoc.lat, newLoc.lng);
    }
    copter.mode_guided.set_velocity(vel);
 }
