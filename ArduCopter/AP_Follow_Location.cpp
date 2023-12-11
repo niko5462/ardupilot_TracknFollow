@@ -36,13 +36,13 @@ double AP_Follow_Location::get_distance(){
 }
 
 void AP_Follow_Location::update_velocity_vector(){
-   wp_len = get_distance();
-   if (wp_len > RANGE){
+   dist_len = get_distance();
+   if (dist_len > RANGE){
       //automatic position hold with manual override, with automatic throttle
       copter.set_mode(Mode::Number::POSHOLD, ModeReason::GCS_COMMAND);
-   }  else if (wp_len > PERIPHERY){
-      vel.x = (x1 * 100 / wp_len) * KP; // x1 is in meters and vel.x should be in cm/s. Therefore, we multiply by 100
-      vel.y = (y1 * 100 / wp_len) * KP; // y1 is in meters and vel.y should be in cm/s. Therefore, we multiply by 100
+   }  else if (dist_len > PERIPHERY){
+      vel.x = (x1 * 100 / dist_len) * KP; // x1 is in meters and vel.x should be in cm/s. Therefore, we multiply by 100
+      vel.y = (y1 * 100 / dist_len) * KP; // y1 is in meters and vel.y should be in cm/s. Therefore, we multiply by 100
       vel.z = 0;
    }  else {
       vel.x = 0; // x, y, and z are set to 0 for hovering

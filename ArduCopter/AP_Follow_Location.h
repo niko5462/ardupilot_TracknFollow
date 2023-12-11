@@ -23,7 +23,7 @@ private:
     uint8_t mavBuffLat[64];
     uint8_t mavBuffLng[64];
     uint8_t mavBuffAlt[64];
-    double wp_len;
+    double dist_len;
     float x1;
     float y1;
     float z1;
