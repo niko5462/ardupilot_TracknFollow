@@ -12,7 +12,6 @@ AP_Follow_Location::AP_Follow_Location(){
 bool AP_Follow_Location::location_changed(AP_GPSParser _gpsParser){
       prevLoc.lat = newLoc.lat;
       prevLoc.lng = newLoc.lng;
-
       newLoc.lat = _gpsParser.get_latitude();
       newLoc.lng = _gpsParser.get_longitude();
       return true;
