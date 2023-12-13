@@ -87,11 +87,13 @@ uint32_t AP_GPSParser::get_latitude(){
     // atof convert a string to a floating-point number.
     latf = atof(latitude) * 10000000.0;
     lat = static_cast<uint32_t>(latf);
+    hal.console->printf("lat: %li", lat);
     return lat;
 }
 
 uint32_t AP_GPSParser::get_longitude(){
     lngf = atof(longitude) * 10000000.0;
     lng = static_cast<uint32_t>(lngf);
+    hal.console->printf(" , lng: %li\n", lng);
     return lng;
 }

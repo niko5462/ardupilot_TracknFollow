@@ -13,7 +13,7 @@ void Copter::follow_location(){
     }
 
     //If setup is done stay in this loop
-    if (setupDone){
+    if (true){
         if ((!flightmode->is_taking_off()) && followLocation.location_changed(gpsParser)){
             if (followLocation.location_valid()){
                 followLocation.update_velocity_vector(); 
