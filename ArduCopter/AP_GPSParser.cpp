@@ -39,7 +39,7 @@ void AP_GPSParser::setup_uart(AP_HAL::UARTDriver *uart_param, const char *name){
 }
 
 void AP_GPSParser::process(){
-    read_from_serial(serial_manager.get_serial_by_id(1), "SERIAL1");
+    read_from_serial(hal.serial(1), "SERIAL1");
 }
 
 void AP_GPSParser::read_from_serial(AP_HAL::UARTDriver *uart_param, const char *name){
@@ -56,6 +56,7 @@ void AP_GPSParser::read_from_serial(AP_HAL::UARTDriver *uart_param, const char *
                 if (inc_data == '\r'){
                     split_coordinates();
                     readData = false;
+                    break;
                 }
             }
         }
@@ -81,10 +82,9 @@ bool AP_GPSParser::has_received_message(){
 void AP_GPSParser::split_coordinates(){
     latitude = strtok((char *)mavlink_buffer, ",");
     longitude = strtok(NULL, ",");
-    altitude = strtok(NULL, ",");
-    hal.console->printf("Latitude: %s \n", latitude);
-    hal.console->printf("Longitude: %s \n", longitude);
-    hal.console->printf("Altitude: %s \n", altitude);
+    altitude = strtok(NULL, ",");    
+    latf = atof(latitude) * 10000000.0;
+    lngf = atof(longitude) * 10000000.0;
     resetBuffer();
 }
 
@@ -93,14 +93,10 @@ void AP_GPSParser::resetBuffer(){
     mavlink_buffer_index = 0;
 }
 
-uint32_t AP_GPSParser::get_latitude(){
-    latf = atof(latitude) * 10000000.0;
-    lat = static_cast<uint32_t>(latf);
-    return lat;
+int32_t AP_GPSParser::get_latitude(){
+    return static_cast<int32_t>(latf);
 }
 
-uint32_t AP_GPSParser::get_longitude(){
-    lngf = atof(longitude) * 10000000.0;
-    lng = static_cast<uint32_t>(lngf);
-    return lng;
+int32_t AP_GPSParser::get_longitude(){
+    return static_cast<int32_t>(lngf);
 }

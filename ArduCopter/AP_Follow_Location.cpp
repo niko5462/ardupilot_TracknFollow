@@ -16,8 +16,7 @@ void AP_Follow_Location::_init(){
 bool AP_Follow_Location::get_location(AP_GPSParser _gpsParser){
    receivedLoc.lat = _gpsParser.get_latitude();
    receivedLoc.lng = _gpsParser.get_longitude();
-   hal.console->printf("Latitude %li \n", receivedLoc.lat);
-   hal.console->printf("Longitude %li \n", receivedLoc.lng);
+   hal.console->printf("data: %li,%li\n", receivedLoc.lat, receivedLoc.lng);
    return true;
 }
 

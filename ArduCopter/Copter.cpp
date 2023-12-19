@@ -153,6 +153,13 @@ const AP_Scheduler::Task Copter::scheduler_tasks[] = {
 #if AP_OPTICALFLOW_ENABLED
     SCHED_TASK_CLASS(AP_OpticalFlow,          &copter.optflow,             update,         200, 160,  12),
 #endif
+
+
+
+    SCHED_TASK(gps_parser_task,              100, 2000, 13),
+    SCHED_TASK(follow_location,              1, 695, 14),
+
+
     SCHED_TASK(update_batt_compass,   10,    120, 15),
     SCHED_TASK_CLASS(RC_Channels, (RC_Channels*)&copter.g2.rc_channels, read_aux_all,    10,  50,  18),
     SCHED_TASK(arm_motors_check,      10,     50, 21),
@@ -160,6 +167,8 @@ const AP_Scheduler::Task Copter::scheduler_tasks[] = {
     SCHED_TASK_CLASS(ToyMode,              &copter.g2.toy_mode,         update,          10,  50,  24),
 #endif
     SCHED_TASK(auto_disarm_check,     10,     50,  27),
+
+
     SCHED_TASK(auto_trim,             10,     75,  30),
 #if RANGEFINDER_ENABLED == ENABLED
     SCHED_TASK(read_rangefinder,      20,    100,  33),
@@ -261,9 +270,7 @@ const AP_Scheduler::Task Copter::scheduler_tasks[] = {
     SCHED_TASK_CLASS(AP_Stats,             &copter.g2.stats,            update,           1, 100, 171),
 #endif
 
-SCHED_TASK(gps_parser_task,              10, 2500, 29),
 
-SCHED_TASK(follow_location,              5, 2500, 179),
 
 };
 

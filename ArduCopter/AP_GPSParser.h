@@ -15,8 +15,8 @@ public:
     void setup();
     void process();
     bool has_received_message();
-    uint32_t get_latitude();
-    uint32_t get_longitude();
+    int32_t get_latitude();
+    int32_t get_longitude();
 private:
 void resetBuffer();
 void save_to_buffer(uint8_t data);
@@ -27,13 +27,12 @@ void split_coordinates();
 
 AP_HAL::UARTDriver *uart;
 uint8_t mavlink_buffer[64];
+char *trash;
 char *latitude;
 char *longitude;
 char *altitude;
-uint32_t lat;
-uint32_t lng;
-double latf;
-double lngf;
+float latf;
+float lngf;
 unsigned long mavlink_buffer_index;
 bool readData;
 

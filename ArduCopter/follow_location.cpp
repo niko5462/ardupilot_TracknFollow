@@ -2,6 +2,7 @@
 
 void Copter::follow_location(){
     static bool setupDone = false;
+    followLocation.change_location(gpsParser);
 
     if (flightmode->is_taking_off()){
         if (!setupDone){
