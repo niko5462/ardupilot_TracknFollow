@@ -18,7 +18,7 @@ public:
     bool change_location(AP_GPSParser gpsParser);
     bool check_location();
     bool getSimLoc();
-
+    void print_time(char *str);
 private:
     bool get_location(AP_GPSParser gpsParser);
     double get_distance();

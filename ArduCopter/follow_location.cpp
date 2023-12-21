@@ -1,6 +1,8 @@
 #include "Copter.h"
+#include <chrono>
 
 void Copter::follow_location(){
+    //followLocation.print_time("Start");
     static bool setupDone = false;
 
     if (flightmode->is_taking_off()){
@@ -15,13 +17,12 @@ void Copter::follow_location(){
         if ((!flightmode->is_taking_off()) && followLocation.getSimLoc()){
             if (followLocation.check_location()){
                 followLocation.update_velocity(); 
-                return;
+                //return;
             }
-            return;
+            //return;
         }
-        return;
+        //return;
     }
+    //followLocation.print_time("End");
+    return;
 }
-// void Copter::update_sim_destination(){
-//     followLocation.getSimLoc();
-// }

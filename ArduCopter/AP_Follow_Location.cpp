@@ -1,9 +1,17 @@
 #include "AP_Follow_Location.h"
 #include "Copter.h"
 #include <AP_Common/Location.h>
+#include <chrono>
 
 AP_Follow_Location::AP_Follow_Location(){
    // constructor
+}
+
+void AP_Follow_Location::print_time(char *str){
+   using std::chrono::high_resolution_clock;
+   auto now = high_resolution_clock::now().time_since_epoch();
+   auto now_in_us = std::chrono::duration_cast<std::chrono::microseconds>(now).count();
+   hal.console->printf("%s: %ld\n", str, now_in_us);
 }
 
 void AP_Follow_Location::_init(){

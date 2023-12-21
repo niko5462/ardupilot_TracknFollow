@@ -17,6 +17,7 @@ public:
     bool has_received_message();
     uint32_t get_latitude();
     uint32_t get_longitude();
+    void print_time(char *str);
 private:
 void resetBuffer();
 void save_to_buffer(uint8_t data);

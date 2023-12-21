@@ -16,11 +16,19 @@ You can then use the buffer in your code to parse the data
 #include "AP_GPSParser.h"
 #include <AP_HAL/AP_HAL.h>
 #include <AP_SerialManager/AP_SerialManager.h>
+#include <chrono>
 
 AP_SerialManager serial_manager;
 
 AP_GPSParser::AP_GPSParser() : uart(nullptr), mavlink_buffer_index(0){
     // constructor
+}
+
+void AP_GPSParser::print_time(char *str){
+   using std::chrono::high_resolution_clock;
+   auto now = high_resolution_clock::now().time_since_epoch();
+   auto now_in_us = std::chrono::duration_cast<std::chrono::microseconds>(now).count();
+   hal.console->printf("%s: %ld\n", str, now_in_us);
 }
 
 void AP_GPSParser::setup(){
@@ -82,9 +90,9 @@ void AP_GPSParser::split_coordinates(){
     latitude = strtok((char *)mavlink_buffer, ",");
     longitude = strtok(NULL, ",");
     altitude = strtok(NULL, ",");
-    hal.console->printf("Latitude: %s \n", latitude);
-    hal.console->printf("Longitude: %s \n", longitude);
-    hal.console->printf("Altitude: %s \n", altitude);
+    //hal.console->printf("Latitude: %s \n", latitude);
+    //hal.console->printf("Longitude: %s \n", longitude);
+    //hal.console->printf("Altitude: %s \n", altitude);
     resetBuffer();
 }
 
