@@ -9,13 +9,14 @@
 AP_Follow_Location::AP_Follow_Location(){
 }
 
-void AP_Follow_Location::location_changed(AP_GPSParser _gpsParser){
+bool AP_Follow_Location::location_changed(AP_GPSParser _gpsParser){
       prevLoc.lat = newLoc.lat;
       prevLoc.lng = newLoc.lng;
       newLoc.lat = _gpsParser.get_latitude();
       newLoc.lng = _gpsParser.get_longitude();
       //print the lat and lng
       hal.console->printf("lat get: %li, lng get: %li\n", newLoc.lat, newLoc.lng);
+    return true;
 }
 
 bool AP_Follow_Location::location_valid(){
