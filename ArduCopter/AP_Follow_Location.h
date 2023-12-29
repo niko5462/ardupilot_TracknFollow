@@ -13,7 +13,7 @@ class AP_Follow_Location{
 public:
     AP_Follow_Location();
     void update_velocity_vector();
-    bool location_changed(AP_GPSParser gpsParser);
+    void location_changed(AP_GPSParser gpsParser);
     bool location_valid();
 private:
     double get_distance();
