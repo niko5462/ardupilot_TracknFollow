@@ -406,10 +406,7 @@ bool Location::sanitize(const Location &defaultLoc, const Location &prevLoc)
  */
 bool Location::is_out_of_range(int32_t current_coordinate, int32_t previous_coordinate, int distance){
    int32_t delta = abs(current_coordinate - previous_coordinate);
-    if(delta > distance){
-        return true;
-    }
-    return false;
+    return (delta > distance);
 }
 
 // make sure we know what size the Location object is:
